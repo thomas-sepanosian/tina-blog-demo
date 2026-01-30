@@ -2,10 +2,10 @@
   "header": {
     "icon": {
       "name": "Tina",
-      "color": "orange",
+      "color": "blue",
       "style": "float"
     },
-    "name": "Tina Starter",
+    "name": "Thomas Sepanosian",
     "color": "default",
     "nav": [
       {
@@ -28,31 +28,19 @@
         "icon": {
           "name": "FaLinkedin"
         },
-        "url": "https://www.linkedin.com/company/tinacms"
+        "url": "https://www.linkedin.com/in/sepanosian/"
       },
       {
         "icon": {
           "name": "FaGithub"
         },
-        "url": "https://github.com/tinacms/tinacms"
-      },
-      {
-        "icon": {
-          "name": "FaYoutube"
-        },
-        "url": "https://www.youtube.com/@TinaCMS"
-      },
-      {
-        "icon": {
-          "name": "FaXTwitter"
-        },
-        "url": "https://x.com/TinaCMS"
+        "url": "https://github.com/thomas-sepanosian"
       }
     ]
   },
   "theme": {
     "color": "blue",
-    "font": "sans",
-    "darkMode": "light"
+    "font": "nunito",
+    "darkMode": "system"
   }
 }
