@@ -25,8 +25,8 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "Tina",
-  description: "Tina Cloud Starter",
+  title: "TS' Blog",
+  description: "Thomas Sepanosian's Blog",
 };
 
 export default function RootLayout({
