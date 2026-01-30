@@ -30,16 +30,27 @@ export const EchoTextInput = wrapFieldsWithMeta(({ input }) => {
 // Custom number input field with badge
 export const EchoCountInput = wrapFieldsWithMeta(({ input }) => {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
             <CustomFieldBadge />
-            <input
-                type="number"
-                min="1"
-                max="20"
-                value={input.value || 1}
-                onChange={(e) => input.onChange(parseInt(e.target.value) || 1)}
-                className="w-24 px-3 py-2 border border-gray-200 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-            />
+            <div className="flex items-center gap-4">
+                <input
+                    type="range"
+                    min="1"
+                    max="20"
+                    step="1"
+                    value={input.value || 1}
+                    onChange={(e) => input.onChange(parseInt(e.target.value) || 1)}
+                    className="flex-grow h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                />
+                <input
+                    type="number"
+                    min="1"
+                    max="20"
+                    value={input.value || 1}
+                    onChange={(e) => input.onChange(parseInt(e.target.value) || 1)}
+                    className="w-16 px-2 py-1 border border-gray-200 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent text-center"
+                />
+            </div>
         </div>
     );
 });
