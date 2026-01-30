@@ -1,5 +1,6 @@
 'use client';
 import { iconSchema } from '@/tina/fields/icon';
+import confetti from 'canvas-confetti';
 import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
@@ -13,6 +14,7 @@ import { TextEffect } from '../motion-primitives/text-effect';
 import { Button } from '../ui/button';
 import HeroVideoDialog from '../ui/hero-video-dialog';
 import { Transition } from 'motion/react';
+
 const transitionVariants = {
   container: {
     visible: {
@@ -42,6 +44,24 @@ const transitionVariants = {
 };
 
 export const Hero = ({ data }: { data: PageBlocksHero }) => {
+  const [hasConfettied, setHasConfettied] = React.useState(false);
+
+  const handleHoverConfetti = (e: React.MouseEvent) => {
+    if (hasConfettied) return;
+    setHasConfettied(true);
+
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const x = (rect.left + rect.width / 2) / window.innerWidth;
+    const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x, y },
+      colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'],
+    });
+  };
+
   // Extract the background style logic into a more readable format
   let gradientStyle: React.CSSProperties | undefined = undefined;
   if (data.background) {
@@ -92,9 +112,9 @@ export const Hero = ({ data }: { data: PageBlocksHero }) => {
 
       {data.image && (
         <AnimatedGroup variants={transitionVariants}>
-          <div className='relative -mr-56 mt-8 overflow-hidden px-2 sm:mr-0 sm:mt-12 md:mt-20 max-w-full' data-tina-field={tinaField(data, 'image')}>
+          <div className='relative -mr-56 mt-8 px-2 sm:mr-0 sm:mt-12 md:mt-20 max-w-full' data-tina-field={tinaField(data, 'image')}>
             <div aria-hidden className='bg-linear-to-b absolute inset-0 z-10 from-transparent from-35% pointer-events-none' style={gradientStyle} />
-            <div className='inset-shadow-2xs ring-background dark:inset-shadow-white/20 bg-background relative mx-auto max-w-6xl overflow-hidden rounded-2xl border p-4 shadow-lg shadow-zinc-950/15 ring-1'>
+            <div onMouseEnter={handleHoverConfetti} className='relative mx-auto max-w-6xl w-fit overflow-hidden rounded-2xl p-4 transition-all duration-300 ease-out hover:scale-105 hover:rotate-1 hover:shadow-lg hover:shadow-primary/25 cursor-pointer'>
               <ImageBlock image={data.image} />
             </div>
           </div>
@@ -122,7 +142,7 @@ const ImageBlock = ({ image }: { image: PageBlocksHeroImage }) => {
   if (image.src) {
     return (
       <Image
-        className='z-2 border-border/25 aspect-15/8 relative rounded-2xl border max-w-full h-auto'
+        className='z-2 border-border/25 relative rounded-2xl border max-h-[500px] w-auto mx-auto'
         alt={image!.alt || ''}
         src={image!.src!}
         height={4000}
@@ -165,9 +185,9 @@ export const heroBlockSchema: Template = {
           label: 'Action Label',
           type: 'button',
           icon: {
-              name: "Tina",
-              color: "white",
-              style: "float",
+            name: "Tina",
+            color: "white",
+            style: "float",
           },
           link: '/',
         },
