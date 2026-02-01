@@ -2,9 +2,9 @@
 import * as React from 'react';
 import type { Template } from 'tinacms';
 import { tinaField } from 'tinacms/dist/react';
-import { PageBlocksEcho } from '../../tina/__generated__/types';
+import { PageBlocksEcho } from '@/tina/__generated__/types';
 import { Section, sectionBlockSchemaField } from '../layout/section';
-import { EchoTextInput, EchoCountInput } from '../../tina/fields/echo';
+import { EchoTextInput, EchoCountInput } from '@/tina/fields/echo';
 
 export const EchoBlock = ({ data }: { data: PageBlocksEcho }) => {
     const echoText = data.text || 'Echo';
@@ -36,6 +36,7 @@ export const EchoBlock = ({ data }: { data: PageBlocksEcho }) => {
                     opacity: currentOpacity,
                     transform: `scale(${currentScale})`,
                 }}
+                data-tina-field={tinaField(data, `text`)}
             >
                 {echoText}
             </div>
@@ -44,7 +45,7 @@ export const EchoBlock = ({ data }: { data: PageBlocksEcho }) => {
 
     return (
         <Section background={data.background!}>
-            <div className="flex flex-col items-center gap-2 py-12" data-tina-field={tinaField(data)}>
+            <div className="flex flex-col items-center gap-2 py-12" data-tina-field={tinaField(data,'text')}>
                 {echoElements}
             </div>
         </Section>
