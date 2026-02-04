@@ -1,6 +1,115 @@
 import React from 'react';
 import { wrapFieldsWithMeta } from 'tinacms';
 
+// Mood definitions with emoji and gradient colors
+export const ECHO_MOODS = {
+    none: {
+        emoji: '🚫',
+        label: 'None',
+        gradient: 'none',
+        colors: ['currentColor'],
+    },
+    fire: {
+        emoji: '🔥',
+        label: 'Fire',
+        gradient: 'linear-gradient(135deg, #f97316 0%, #ef4444 50%, #dc2626 100%)',
+        colors: ['#f97316', '#ef4444', '#dc2626'],
+    },
+    ocean: {
+        emoji: '🌊',
+        label: 'Ocean',
+        gradient: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #1e3a8a 100%)',
+        colors: ['#06b6d4', '#3b82f6', '#1e3a8a'],
+    },
+    forest: {
+        emoji: '🌲',
+        label: 'Forest',
+        gradient: 'linear-gradient(135deg, #84cc16 0%, #22c55e 50%, #059669 100%)',
+        colors: ['#84cc16', '#22c55e', '#059669'],
+    },
+    blossom: {
+        emoji: '🌸',
+        label: 'Blossom',
+        gradient: 'linear-gradient(135deg, #f9a8d4 0%, #f43f5e 50%, #db2777 100%)',
+        colors: ['#f9a8d4', '#f43f5e', '#db2777'],
+    },
+    night: {
+        emoji: '🌙',
+        label: 'Night',
+        gradient: 'linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #312e81 100%)',
+        colors: ['#a855f7', '#6366f1', '#312e81'],
+    },
+    rainbow: {
+        emoji: '🌈',
+        label: 'Rainbow',
+        gradient: 'linear-gradient(135deg, #ef4444 0%, #f59e0b 17%, #84cc16 33%, #22c55e 50%, #06b6d4 67%, #8b5cf6 83%, #ec4899 100%)',
+        colors: ['#ef4444', '#f59e0b', '#84cc16', '#22c55e', '#06b6d4', '#8b5cf6', '#ec4899'],
+    },
+} as const;
+
+export type EchoMoodKey = keyof typeof ECHO_MOODS;
+
+// Custom mood picker field with emoji buttons
+export const EchoMoodPicker = wrapFieldsWithMeta(({ input }) => {
+    const selectedMood = (input.value as EchoMoodKey) || 'fire';
+
+    return (
+        <div className="flex flex-col gap-3">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm w-fit">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Mood Picker
+            </span>
+            <div className="grid grid-cols-3 gap-2">
+                {Object.entries(ECHO_MOODS).map(([key, mood]) => {
+                    const isSelected = selectedMood === key;
+                    return (
+                        <button
+                            key={key}
+                            type="button"
+                            onClick={() => input.onChange(key)}
+                            className={`
+                                flex flex-col items-center gap-1 p-3 rounded-lg border-2 transition-all duration-200
+                                ${isSelected
+                                    ? 'border-blue-500 bg-blue-50 shadow-md scale-105'
+                                    : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+                                }
+                            `}
+                            style={{
+                                boxShadow: isSelected ? `0 0 12px ${mood.colors[0]}40` : undefined,
+                            }}
+                        >
+                            <span className="text-2xl" style={{ filter: isSelected ? 'none' : 'grayscale(50%)' }}>
+                                {mood.emoji}
+                            </span>
+                            <span className="text-xs font-medium text-gray-600">{mood.label}</span>
+                            {isSelected && (
+                                <div
+                                    className="w-full h-1 rounded-full mt-1"
+                                    style={{ background: mood.gradient }}
+                                />
+                            )}
+                        </button>
+                    );
+                })}
+            </div>
+            {/* Preview of selected gradient */}
+            <div className="mt-2 p-3 rounded-lg bg-gray-900">
+                <div
+                    className="text-center font-bold text-lg bg-clip-text text-transparent"
+                    style={{
+                        backgroundImage: ECHO_MOODS[selectedMood].gradient,
+                        WebkitBackgroundClip: 'text',
+                    }}
+                >
+                    Preview: {ECHO_MOODS[selectedMood].label}
+                </div>
+            </div>
+        </div>
+    );
+});
+
 // Custom badge component for visual indicator
 const CustomFieldBadge = () => (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-sm mb-2">
