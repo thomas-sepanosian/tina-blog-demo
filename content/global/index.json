@@ -17,6 +17,10 @@
         "label": "About"
       },
       {
+        "href": "/publications",
+        "label": "Publications"
+      },
+      {
         "href": "/posts",
         "label": "Blog"
       }
